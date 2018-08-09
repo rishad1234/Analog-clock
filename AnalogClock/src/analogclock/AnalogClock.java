@@ -8,6 +8,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -42,7 +43,7 @@ public class AnalogClock extends Application {
         });
         
         rootGroup.setOnMouseClicked((MouseEvent event) ->{
-            if(event.getClickCount() == 2){
+            if(event.getClickCount() >= 2){
                 System.exit(0);
             }
         });
@@ -82,10 +83,10 @@ public class AnalogClock extends Application {
         circleHours.setFill(Color.TRANSPARENT);
         middleCircle.setFill(Color.TRANSPARENT);
         
-        circleSec.setStroke(Color.DARKRED);
+        circleSec.setStroke(bloodRed);
         circleMin.setStroke(Color.DARKGREEN);
-        circleHours.setStroke(Color.DARKBLUE);
-        middleCircle.setStroke(bloodRed);
+        circleHours.setStroke(bloodRed);
+        middleCircle.setStroke(Color.MEDIUMTURQUOISE);
         
         circleHours.setStrokeWidth(3);
         circleMin.setStrokeWidth(3);
@@ -119,7 +120,7 @@ public class AnalogClock extends Application {
                 );
             }
 
-            line[(int) s - 1].setStroke(Color.LIGHTSEAGREEN);
+            line[(int) s - 1].setStroke(Color.MEDIUMTURQUOISE);
             line[(int) s - 1].setStrokeWidth(4);
             line[(int) s - 1].setStrokeLineCap(StrokeLineCap.ROUND);
             
