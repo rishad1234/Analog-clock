@@ -3,6 +3,7 @@ package analogclock;
 
 import java.util.Calendar;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -69,26 +70,32 @@ public class AnalogClock extends Application {
     
     private void launchClock(Group root){
         Line line[] = new Line[60];
-
+        Color bloodRed =  Color.rgb(131, 3, 3);
         final Arc circleHours = new Arc(203, 150, 53, 53, 90, 360);
         final Arc circleMin = new Arc(203, 150, 103, 103, 90, 360);
         final Arc circleSec = new Arc(203, 150, 133, 133, 90, 360);
-        root.getChildren().addAll(circleSec, circleMin, circleHours); 
+        final Arc middleCircle = new Arc(203, 150, 40, 40, 0, 360);
+        root.getChildren().addAll(circleSec, circleMin, circleHours, middleCircle); 
         
         circleSec.setFill(Color.TRANSPARENT);
         circleMin.setFill(Color.TRANSPARENT);
         circleHours.setFill(Color.TRANSPARENT);
+        middleCircle.setFill(Color.TRANSPARENT);
+        
         circleSec.setStroke(Color.DARKRED);
         circleMin.setStroke(Color.DARKGREEN);
         circleHours.setStroke(Color.DARKBLUE);
+        middleCircle.setStroke(bloodRed);
         
         circleHours.setStrokeWidth(3);
         circleMin.setStrokeWidth(3);
         circleSec.setStrokeWidth(3);
+        middleCircle.setStrokeWidth(10);
         
-        circleHours.setStrokeLineCap(StrokeLineCap.ROUND);
-        circleMin.setStrokeLineCap(StrokeLineCap.ROUND);
-        circleSec.setStrokeLineCap(StrokeLineCap.ROUND);
+        circleHours.setStrokeLineCap(StrokeLineCap.SQUARE);
+        circleMin.setStrokeLineCap(StrokeLineCap.SQUARE);
+        circleSec.setStrokeLineCap(StrokeLineCap.SQUARE);
+        middleCircle.setStrokeLineCap(StrokeLineCap.SQUARE);
         
         Group group = new Group();
         for (double s = 1.0; s <= 60.0; s = s + 1.0) {
@@ -129,6 +136,13 @@ public class AnalogClock extends Application {
                 circleHours.setLength(-c.get(Calendar.HOUR) / 12.0 * 360.0);
             }
         }));
+        
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(500), middleCircle);
+        fadeIn.setFromValue(1.0);
+        fadeIn.setToValue(0.4);
+        fadeIn.setCycleCount(Animation.INDEFINITE);
+        fadeIn.setAutoReverse(true);
+        fadeIn.play();
         
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
