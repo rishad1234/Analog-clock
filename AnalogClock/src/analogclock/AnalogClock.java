@@ -6,12 +6,14 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.Line;
@@ -23,18 +25,39 @@ import javafx.util.Duration;
 
 public class AnalogClock extends Application {
     
+    private double posX;
+    private double posY;
     @Override
     public void start(Stage primaryStage) {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         Group rootGroup = new Group();
+        
+        rootGroup.setOnMousePressed((MouseEvent event) -> {
+            posX = event.getSceneX();
+            posY = event.getSceneY();
+        });
+        rootGroup.setOnMouseDragged((MouseEvent event) -> {
+            primaryStage.setX(event.getScreenX() - posX);
+            primaryStage.setY(event.getScreenY() - posY);
+        });
+        
+        rootGroup.setOnMouseClicked((MouseEvent event) ->{
+            if(event.getClickCount() == 2){
+                System.exit(0);
+            }
+        });
+        
         Scene scene = new Scene(rootGroup, 400, 300, Color.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.show();
+        
         rootGroup.setEffect(new DropShadow(15, Color.AZURE));
         primaryStage.setX(Screen.getPrimary().getBounds().getWidth() - 400);
         primaryStage.setY(0);
+        
         primaryStage.getIcons().add(new Image("/image/icon.png"));
+        
         launchClock(rootGroup);
     }
 
@@ -48,23 +71,23 @@ public class AnalogClock extends Application {
     private void launchClock(Group root){
         Line line[] = new Line[60];
 
-        final Arc circleHoures = new Arc(203, 150, 50, 50, 90, 360);
+        final Arc circleHours = new Arc(203, 150, 50, 50, 90, 360);
         final Arc circleMin = new Arc(203, 150, 100, 100, 90, 360);
         final Arc circleSec = new Arc(203, 150, 130, 130, 90, 360);
-        root.getChildren().addAll(circleSec, circleMin, circleHoures); 
+        root.getChildren().addAll(circleSec, circleMin, circleHours); 
         
         circleSec.setFill(Color.TRANSPARENT);
         circleMin.setFill(Color.TRANSPARENT);
-        circleHoures.setFill(Color.TRANSPARENT);
+        circleHours.setFill(Color.TRANSPARENT);
         circleSec.setStroke(Color.ORANGE);
         circleMin.setStroke(Color.CORAL);
-        circleHoures.setStroke(Color.DARKCYAN);
+        circleHours.setStroke(Color.DARKCYAN);
         
-        circleHoures.setStrokeWidth(3);
+        circleHours.setStrokeWidth(3);
         circleMin.setStrokeWidth(3);
         circleSec.setStrokeWidth(3);
         
-        circleHoures.setStrokeLineCap(StrokeLineCap.ROUND);
+        circleHours.setStrokeLineCap(StrokeLineCap.ROUND);
         circleMin.setStrokeLineCap(StrokeLineCap.ROUND);
         circleSec.setStrokeLineCap(StrokeLineCap.ROUND);
         
@@ -104,7 +127,7 @@ public class AnalogClock extends Application {
                 Calendar c = Calendar.getInstance();
                 circleSec.setLength(-(c.get(Calendar.SECOND)) / 60.0 * 360.0);
                 circleMin.setLength(-(c.get(Calendar.MINUTE)) / 60.0 * 360.0);
-                circleHoures.setLength(-(c.get(Calendar.HOUR)) / 12.0 * 360.0);
+                circleHours.setLength(-c.get(Calendar.HOUR) / 12.0 * 360.0);
             }
         }));
         
