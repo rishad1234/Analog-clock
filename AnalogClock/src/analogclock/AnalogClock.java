@@ -51,7 +51,7 @@ public class AnalogClock extends Application {
         primaryStage.sizeToScene();
         primaryStage.show();
         
-        rootGroup.setEffect(new DropShadow(15, Color.AZURE));
+        rootGroup.setEffect(new DropShadow(1, Color.BLACK));
         primaryStage.setX(Screen.getPrimary().getBounds().getWidth() - 400);
         primaryStage.setY(0);
         
@@ -70,9 +70,9 @@ public class AnalogClock extends Application {
     private void launchClock(Group root){
         Line line[] = new Line[60];
 
-        final Arc circleHours = new Arc(203, 150, 50, 50, 90, 360);
-        final Arc circleMin = new Arc(203, 150, 100, 100, 90, 360);
-        final Arc circleSec = new Arc(203, 150, 130, 130, 90, 360);
+        final Arc circleHours = new Arc(203, 150, 53, 53, 90, 360);
+        final Arc circleMin = new Arc(203, 150, 103, 103, 90, 360);
+        final Arc circleSec = new Arc(203, 150, 133, 133, 90, 360);
         root.getChildren().addAll(circleSec, circleMin, circleHours); 
         
         circleSec.setFill(Color.TRANSPARENT);
